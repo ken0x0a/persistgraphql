@@ -8,7 +8,6 @@ import {
   DocumentNode,
   OperationDefinitionNode,
   FragmentDefinitionNode,
-  print,
   DefinitionNode,
   separateOperations,
 } from 'graphql';
@@ -17,7 +16,6 @@ import {
   getOperationDefinitions,
   getFragmentNames,
   isFragmentDefinition,
-  isOperationDefinition,
 } from './extractFromAST';
 
 import {
@@ -30,7 +28,6 @@ import {
   getQueryDocumentKey,
   sortFragmentsByName,
   applyQueryTransformers,
-  TransformedQueryWithId,
   OutputMap,
   QueryTransformer,
 } from './common';
@@ -39,7 +36,7 @@ import {
   addTypenameTransformer,
 } from './queryTransformers';
 
-import _ = require('lodash');
+import _ from ('lodash');
 
 export type ExtractGQLOptions = {
   inputFilePath: string,
@@ -145,7 +142,7 @@ export class ExtractGQL {
 
   // Create an OutputMap from a GraphQL document that may contain
   // queries, mutations and fragments.
-  public createMapFromDocument(document: DocumentNode): OutputMap {
+  public createMapFromDocument(document: DocumentNode, operationName: string): OutputMap {
     const transformedDocument = this.applyQueryTransformers(document);
     const queryDefinitions = getOperationDefinitions(transformedDocument);
     const result: OutputMap = {};
@@ -153,7 +150,9 @@ export class ExtractGQL {
       const transformedQueryWithFragments = this.getQueryFragments(transformedDocument, transformedDefinition);
       transformedQueryWithFragments.definitions.unshift(transformedDefinition);
       const docQueryKey = this.getQueryDocumentKey(transformedQueryWithFragments);
-      result[docQueryKey] = this.getQueryId();
+      result[docQueryKey] = document.;
+      // result[docQueryKey] = operationName;
+      // result[docQueryKey] = this.getQueryId();
     });
     return result;
   }
@@ -179,7 +178,7 @@ export class ExtractGQL {
 
     const resultMaps = Object.keys(docMap).map((operationName) => {
       const document = docMap[operationName];
-      return this.createMapFromDocument(document);
+      return this.createMapFromDocument(document, operationName);
     });
 
     return (_.merge({} as OutputMap, ...resultMaps) as OutputMap);
