@@ -8,12 +8,15 @@ import {
   FragmentDefinitionNode,
   OperationDefinitionNode,
   DocumentNode,
-  print,
-} from 'graphql';
+  print
+} from "graphql";
 
 // A map from a key (id or a hash) to a GraphQL document.
 export interface OutputMap {
   [key: string]: QueryId;
+}
+export interface IntermediateMap {
+  [queryId: number]: { query: string; opName: string };
 }
 
 export type QueryId = number | string;
@@ -27,9 +30,12 @@ export type QueryTransformer = (doc: DocumentNode) => DocumentNode;
 // Sorting strategy for fragment definitions. Sorts fragment
 // definitions by their name and moves them to the end of the
 // query.
-export function sortFragmentsByName(a: DefinitionNode, b: DefinitionNode): number {
-  const aIsFragment = a.kind === 'FragmentDefinition';
-  const bIsFragment = b.kind === 'FragmentDefinition';
+export function sortFragmentsByName(
+  a: DefinitionNode,
+  b: DefinitionNode
+): number {
+  const aIsFragment = a.kind === "FragmentDefinition";
+  const bIsFragment = b.kind === "FragmentDefinition";
 
   // If both aren't fragments, just leave them in place.
   if (!aIsFragment && !bIsFragment) {
@@ -38,8 +44,8 @@ export function sortFragmentsByName(a: DefinitionNode, b: DefinitionNode): numbe
 
   // If both are fragments, sort them by their name.
   if (aIsFragment && bIsFragment) {
-    const aName = (a as (FragmentDefinitionNode)).name.value;
-    const bName = (b as (FragmentDefinitionNode)).name.value;
+    const aName = (a as FragmentDefinitionNode).name.value;
+    const bName = (b as FragmentDefinitionNode).name.value;
     return aName.localeCompare(bName);
   }
 
@@ -48,7 +54,9 @@ export function sortFragmentsByName(a: DefinitionNode, b: DefinitionNode): numbe
 }
 
 // Apply sorting strategy for fragments.
-export function applyFragmentDefinitionSort(document: DocumentNode): DocumentNode {
+export function applyFragmentDefinitionSort(
+  document: DocumentNode
+): DocumentNode {
   document.definitions = document.definitions.sort(sortFragmentsByName);
   return document;
 }
@@ -56,10 +64,10 @@ export function applyFragmentDefinitionSort(document: DocumentNode): DocumentNod
 // Apply queryTransformers to a query document.
 export function applyQueryTransformers(
   document: DocumentNode,
-  queryTransformers: QueryTransformer[] = [],
+  queryTransformers: QueryTransformer[] = []
 ): DocumentNode {
   let currentDocument = document;
-  queryTransformers.forEach((transformer) => {
+  queryTransformers.forEach(transformer => {
     currentDocument = transformer(currentDocument);
   });
   return currentDocument;
@@ -70,16 +78,15 @@ export function applyQueryTransformers(
 // transformers to the query definition before returning the key.
 export function getQueryKey(
   definition: OperationDefinitionNode,
-  queryTransformers: QueryTransformer[] = [],
+  queryTransformers: QueryTransformer[] = []
 ): string {
   const wrappingDocument: DocumentNode = {
-    kind: 'Document',
-    definitions: [ definition ],
+    kind: "Document",
+    definitions: [definition]
   };
-  return print(applyQueryTransformers(
-    wrappingDocument,
-    queryTransformers,
-  ).definitions[0]);
+  return print(
+    applyQueryTransformers(wrappingDocument, queryTransformers).definitions[0]
+  );
 }
 
 // Returns a key for a query in a document definition. Should include exactly one query and a set
@@ -88,7 +95,11 @@ export function getQueryKey(
 // before making it a document key.
 export function getQueryDocumentKey(
   document: DocumentNode,
-  queryTransformers: QueryTransformer[] = [],
+  queryTransformers: QueryTransformer[] = []
 ): string {
-  return print(applyFragmentDefinitionSort(applyQueryTransformers(document, queryTransformers)));
+  return print(
+    applyFragmentDefinitionSort(
+      applyQueryTransformers(document, queryTransformers)
+    )
+  );
 }
