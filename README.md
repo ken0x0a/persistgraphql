@@ -1,3 +1,25 @@
+## 
+
+parse graphql queries from file and output json
+
+```ts
+type query = string
+
+interface OutputJson {
+  [opName: string]: query
+}
+```
+
+Original "persistgraphql" output queryId as number, but it's quite complicated to implement on ApolloLink.
+Possible, but need to pass as extension, or need to implement HttpLink and also parse graphql on query.
+
+Since Apollo send `operationName` for each request, this output simplify client side implementation.
+
+
+---
+
+original README.md is follows
+
 # PersistGraphQL
 
 `persistgraphql` is a simple build tool that enables query whitelisting and persisted queries for GraphQL projects that use statically analyze-able GraphQL queries.
