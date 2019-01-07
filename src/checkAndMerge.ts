@@ -1,9 +1,9 @@
-import { IntermediateMap } from "./common";
+import { exists } from "fs";
 
 // tslint:disable
 
 export function checkAndMerge(
-  objects: IntermediateMap[] // { [opName: string]: string }[]
+  objects: { [opName: string]: string }[]
 ): { [opName: string]: string } {
   try {
     // const res = objects.reduce<{ [key: string]: string }>((pv, cv) => {
@@ -17,11 +17,8 @@ export function checkAndMerge(
       const keys = Object.keys(obj);
       if (keys.length !== 1) throw new Error("obj length should be 1");
 
-      console.log(obj);
-      const queryId = (keys[0] as any) as keyof typeof obj;
-      const opName = obj[queryId].opName;
-      const query = obj[queryId].query;
-      console.log(opName);
+      const opName = keys[0];
+      const query = obj[keys[0]];
       if (typeof opCount[opName] === "undefined") opCount[opName] = 0;
       if (res[opName] && res[opName] !== query)
         throw new Error(`"query" must be same for opName "${opName}"`);

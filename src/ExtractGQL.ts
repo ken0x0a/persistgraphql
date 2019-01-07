@@ -29,8 +29,7 @@ import {
   sortFragmentsByName,
   applyQueryTransformers,
   OutputMap,
-  QueryTransformer,
-  IntermediateMap
+  QueryTransformer
 } from "./common";
 
 import { addTypenameTransformer } from "./queryTransformers";
@@ -142,10 +141,10 @@ export class ExtractGQL {
   public createMapFromDocument(
     document: DocumentNode,
     operationName: string
-  ): IntermediateMap {
+  ): OutputMap {
     const transformedDocument = this.applyQueryTransformers(document);
     const queryDefinitions = getOperationDefinitions(transformedDocument);
-    const result: IntermediateMap = {};
+    const result: OutputMap = {};
     queryDefinitions.forEach(transformedDefinition => {
       const transformedQueryWithFragments = this.getQueryFragments(
         transformedDocument,
@@ -155,10 +154,9 @@ export class ExtractGQL {
       const docQueryKey = this.getQueryDocumentKey(
         transformedQueryWithFragments
       );
-      // result[operationName] = docQueryKey;
+      result[operationName] = docQueryKey;
       // result[docQueryKey] = operationName;
       // result[docQueryKey] = this.getQueryId();
-      result[this.getQueryId()] = { query: docQueryKey, opName: operationName };
     });
     return result;
   }
@@ -178,7 +176,7 @@ export class ExtractGQL {
             return this.createMapFromDocument(document, operationName);
           });
           // console.log({ resultMaps });
-          return checkAndMerge(resultMaps) as OutputMap;
+          return checkAndMerge(resultMaps as any) as OutputMap;
           // resolve(this.createMapFromDocument(graphQLDocument, "a"));
         })
         .catch(err => {
@@ -198,7 +196,7 @@ export class ExtractGQL {
     });
     // console.log({ resultMaps });
 
-    return checkAndMerge(resultMaps) as OutputMap;
+    return checkAndMerge(resultMaps as any) as OutputMap;
   }
 
   public readGraphQLFile(graphQLFile: string): Promise<string> {
