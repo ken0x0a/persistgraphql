@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "lib": ["es6", "dom", "esnext.asynciterable"],
+    "lib": ["dom", "esnext"],
     "moduleResolution": "node",
     "skipLibCheck": true,
     "sourceMap": true,
@@ -14,14 +14,12 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "noEmit": true
     // "types": [ "mocha", "node" ]
   },
   "files": [
-    "typings.d.ts",
+    "src/index.ts",
     "src/binary.ts",
-    // "test/tests.ts",
-    "fetch-mock.typings.d.ts",
-    "index.ts"
   ],
-  "exclude": ["test/**","node_modules"]
+  "exclude": ["node_modules"]
 }
