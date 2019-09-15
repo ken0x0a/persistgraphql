@@ -11,6 +11,7 @@
     "lib/**",
     "bin/*"
   ],
+  "prettier": "@ken0x0a/prettier-config",
   "scripts": {
     "pretest": "npm run compile",
     "test": "mocha --reporter spec --full-trace lib/test/tests.js",
@@ -19,7 +20,9 @@
     "build.ts": "git clean -xf lib && tsc -p tsconfig.build.json",
     "build": "git clean -nx lib && ncc build src/binary.ts -o lib -m",
     "start": "git clean -nx lib && ncc build src/binary.ts -o lib -m -w",
-    "lint": "tslint -c tslint.json test/**/*.ts; tslint src/**/*.ts"
+    "find-in-package-json": "ag -G '.*package.json' --ignore 'node_modules'",
+    "prepare": "git clean -xf \"lib\" && yarn --silent build",
+    "changelog": "conventional-changelog -p angular"
   },
   "dependencies": {
     "apollo-client": "^1.1",
@@ -29,14 +32,14 @@
     "yargs": "^14.0.0"
   },
   "devDependencies": {
+    "@ken0x0a/configs": "2.5.10",
     "@types/lodash": "^4.14.138",
     "@types/node": "^12.7.5",
     "@types/yargs": "^13.0.2",
     "@zeit/ncc": "^0.20.5",
     "fetch-mock": "^5.10.0",
     "source-map-support": "^0.5.13",
-    "tslint": "^5.20.0",
-    "typescript": "3.6.3"
+    "tslib": "1.10.0"
   },
   "optionalDependencies": {
     "@types/graphql": "^0.9.0"
@@ -50,5 +53,17 @@
   "bugs": {
     "url": "https://github.com/ken0x0a/persistgraphql/issues"
   },
-  "homepage": "https://github.com/ken0x0a/persistgraphql#readme"
+  "homepage": "https://github.com/ken0x0a/persistgraphql#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/@ken0x0a/commit-config",
+      "maxHeaderWidth": 100,
+      "maxLineWidth": 100,
+      "defaultType": "chore",
+      "defaultScope": "",
+      "defaultSubject": "--",
+      "defaultBody": "",
+      "defaultIssues": ""
+    }
+  }
 }
