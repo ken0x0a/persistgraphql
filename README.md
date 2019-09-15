@@ -1,6 +1,16 @@
-## 
+# @ken0x0a/persistgraphql
 
-parse graphql queries from file and output json
+This is a fork of https://github.com/apollographql/persistgraphql.
+
+## Difference with original persistgraphql
+
+- Original (persistgraphql) output json with **number** as key.
+- This fork (@ken0x0a/persistgraphql) output json with **QueryName** as key.
+
+
+## Description
+
+Parse graphql queries from file and output json
 
 ```ts
 type query = string
@@ -11,7 +21,7 @@ interface OutputJson {
 ```
 
 Original "persistgraphql" output queryId as number, but it's quite complicated to implement on ApolloLink.
-Possible, but need to pass as extension, or need to implement HttpLink and also parse graphql on query.
+Possible, but need to [pass as extension](https://github.com/apollographql/persistgraphql/issues/42#issuecomment-407260467), or need to implement HttpLink and also parse graphql on query.
 
 Since Apollo send `operationName` for each request, this output simplify client side implementation.
 
