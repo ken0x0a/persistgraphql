@@ -1,11 +1,11 @@
 {
-  "name": "persistgraphql",
+  "name": "@ken0x0a/persistgraphql",
   "version": "0.3.11",
   "description": "A build tool for GraphQL projects.",
   "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
-  "typescript": {
-    "definition": "lib/index.d.ts"
+  "types": "lib/index.d.ts",
+  "bin": {
+    "persistgraphql": "./bin/persistgraphql"
   },
   "files": [
     "lib/**",
@@ -17,20 +17,10 @@
     "test": "mocha --reporter spec --full-trace lib/test/tests.js",
     "posttest": "npm run lint",
     "compile": "tsc",
+    "build.ts": "git clean -nx lib && tsc -p tsconfig.build.json",
+    "build": "git clean -nx lib && ncc build src/main.ts -o lib -m",
+    "start": "git clean -nx lib && ncc build src/main.ts -w -o lib -m",
     "lint": "tslint -c tslint.json test/**/*.ts; tslint src/**/*.ts"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Poincare/apollo-query-whitelisting.git"
-  },
-  "author": "Dhaivat Pandya",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Poincare/persistgraphql/issues"
-  },
-  "homepage": "https://github.com/Poincare/persistgraphql#readme",
-  "bin": {
-    "persistgraphql": "./bin/persistgraphql"
   },
   "dependencies": {
     "apollo-client": "^1.1",
@@ -50,5 +40,15 @@
   },
   "optionalDependencies": {
     "@types/graphql": "^0.9.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ken0x0a/persistgraphql.git"
+  },
+  "author": "Dhaivat Pandya",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ken0x0a/persistgraphql/issues"
+  },
+  "homepage": "https://github.com/ken0x0a/persistgraphql#readme"
 }
