@@ -35,6 +35,10 @@ module.exports = {
     /**
      * specific
      */
+    'import/no-extraneous-dependencies': [
+      2,
+      { devDependencies: true, optionalDependencies: false, peerDependencies: false },
+    ],
     '@typescript-eslint/camelcase': [2, { properties: 'never', ignoreDestructuring: false }],
   },
   overrides: [

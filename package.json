@@ -25,11 +25,6 @@
     "changelog": "conventional-changelog -p angular"
   },
   "dependencies": {
-    "apollo-client": "^1.1",
-    "graphql": ">=0.9.4 <0.11",
-    "graphql-tag": "^2.0.0",
-    "lodash": "^4.17.15",
-    "yargs": "^14.0.0"
   },
   "devDependencies": {
     "@ken0x0a/configs": "2.5.10",
@@ -37,7 +32,12 @@
     "@types/node": "^12.7.5",
     "@types/yargs": "^13.0.2",
     "@zeit/ncc": "^0.20.5",
+    "apollo-client": "^1.1",
     "fetch-mock": "^5.10.0",
+    "graphql": ">=0.9.4 <0.11",
+    "graphql-tag": "^2.0.0",
+    "lodash": "^4.17.15",
+    "yargs": "^14.0.0",
     "source-map-support": "^0.5.13",
     "tslib": "1.10.0"
   },
