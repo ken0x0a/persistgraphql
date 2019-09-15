@@ -2,24 +2,20 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "lib": ["dom", "esnext"],
+    "lib": ["es6", "dom", "esnext.asynciterable"],
     "moduleResolution": "node",
     "skipLibCheck": true,
     "sourceMap": true,
-    "declaration": true,
-    "rootDir": ".",
+    "declaration": false,
+    "rootDir": "src",
     "outDir": "lib",
     "allowSyntheticDefaultImports": true,
     "removeComments": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noEmit": true
+    "noFallthroughCasesInSwitch": true
     // "types": [ "mocha", "node" ]
   },
-  "files": [
-    "src/index.ts",
-    "src/binary.ts"
-  ],
-  "exclude": ["node_modules"]
+  "include": ["src"],
+  "exclude": ["test/**","node_modules"]
 }
